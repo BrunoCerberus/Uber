@@ -92,7 +92,7 @@ class PassageiroViewController: UIViewController, MKMapViewDelegate, CLLocationM
                 //ordernar por email para um email especifico
                 requisicao.queryOrdered(byChild: "email").queryEqual(toValue: emailUsuario).observeSingleEvent(of: DataEventType.childAdded, with: { (snapshot) in
                     
-                    //ref é o ID gerado eplo childByAutoId
+                    //ref é o ID gerado pelo childByAutoId
                     snapshot.ref.removeValue()
                 })
                 
