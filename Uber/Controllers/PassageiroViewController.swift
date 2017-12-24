@@ -86,20 +86,30 @@ class PassageiroViewController: UIViewController, MKMapViewDelegate, CLLocationM
                 
                self.alternaBotaoChamarUber()
                 
+                //remover requisicao
+                let requisicao = database.child("requisicoes")
+                
+                //ordernar por email para um email especifico
+                requisicao.queryOrdered(byChild: "email").queryEqual(toValue: emailUsuario).observeSingleEvent(of: DataEventType.childAdded, with: { (snapshot) in
+                    
+                    //ref é o ID gerado eplo childByAutoId
+                    snapshot.ref.removeValue()
+                })
+                
             } else {//uber nao foi chamado
                 
                 self.alternaBotaoCancelarUber()
+                
+                let dadosUsuario = [
+                    "email" : emailUsuario,
+                    "nome" : "Bruno Lopes",
+                    "latitude" : latitude!,
+                    "longitude" : longitude!
+                    ] as [String : Any]
+                
+                requisicao.childByAutoId().setValue(dadosUsuario)
+                
             }
-            
-            /*
-            let dadosUsuario = [
-                "email" : emailUsuario,
-                "nome" : "Bruno Lopes",
-                "latitude" : latitude!,
-                "longitude" : longitude!
-                ] as [String : Any]
-            
-            requisicao.childByAutoId().setValue(dadosUsuario)*/
         }
         
     }
