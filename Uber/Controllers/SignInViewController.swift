@@ -42,11 +42,18 @@ class SignInViewController: UIViewController, UITextFieldDelegate{
                     
                     if erro == nil {
                         
+                        /*
+                            Valida se o usuário esta logado
+                            Caso o usuário esteja logado, será redirecionado
+                            automaticamente de acordo com o tipo de usuario
+                            com evento criado na ViewController
+                        */
+                        
                         if user != nil {
                             
                             if let _userEmail = user?.email {
                                 print("Usuario \(_userEmail) connected")
-                                self.performSegue(withIdentifier: "signIn", sender: nil)
+                                
                             }
                         }
                         

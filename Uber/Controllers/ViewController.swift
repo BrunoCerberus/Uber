@@ -29,7 +29,23 @@ class ViewController: UIViewController {
         autenticacao.addStateDidChangeListener { (auth, user) in
             
             if user != nil {
-                self.performSegue(withIdentifier: "logado", sender: nil)
+                
+                let database = Database.database().reference()
+                let usuarios = database.child("usuarios").child((user?.uid)!)
+                
+                usuarios.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
+                    
+                    print(snapshot)
+                    let dados = snapshot.value as? NSDictionary
+                    let tipoUsuario = dados!["tipo"] as! String
+                    print("Tipo do usuario: " + tipoUsuario)
+                    
+                    if tipoUsuario == "passageiro" {
+                        self.performSegue(withIdentifier: "segueLoginPrincipalPassageiro", sender: nil)
+                    } else {
+                        self.performSegue(withIdentifier: "segueLoginPrincipalMotorista", sender: nil)
+                    }
+                })
             }
         }
     }

@@ -73,7 +73,12 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                                 //Salvar dados
                                 usuarios.child((user?.uid)!).setValue(dadosUsuario)
                                 
-                                //self.performSegue(withIdentifier: "signUp", sender: nil)
+                                /*
+                                 Valida se o usuário esta logado
+                                 Caso o usuário esteja logado, será redirecionado
+                                 automaticamente de acordo com o tipo de usuario
+                                 com evento criado na ViewController
+                                 */
                             }
                             
                         } else {

@@ -91,7 +91,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Uber" id="nAe-Nv-050"/>
                     <connections>
-                        <segue destination="9oa-D4-X4y" kind="presentation" identifier="logado" id="qAV-ak-41y"/>
+                        <segue destination="9oa-D4-X4y" kind="presentation" identifier="segueLoginPrincipalPassageiro" id="qAV-ak-41y"/>
+                        <segue destination="yeL-31-LuW" kind="presentation" identifier="segueLoginPrincipalMotorista" id="SgV-YV-1TR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -199,12 +200,11 @@
                         <outlet property="emailField" destination="VbT-NT-scz" id="yXi-YA-tyc"/>
                         <outlet property="entrarButton" destination="vlO-fy-BPa" id="wla-UE-2YV"/>
                         <outlet property="senhaLabel" destination="f9M-Gs-app" id="53A-PL-CKq"/>
-                        <segue destination="9oa-D4-X4y" kind="presentation" identifier="signIn" id="IIx-G3-hMe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oOu-K4-0o2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1772" y="-412"/>
+            <point key="canvasLocation" x="431" y="-718"/>
         </scene>
         <!--Novo Usuário-->
         <scene sceneID="VGB-ub-3Rc">
@@ -383,12 +383,11 @@
                         <outlet property="nomeField" destination="nvA-ue-kJY" id="oq4-IA-sgt"/>
                         <outlet property="senhaField" destination="36t-Wl-F6O" id="g6J-vc-Q9w"/>
                         <outlet property="switch" destination="6ps-eQ-v1t" id="f58-Oa-mPJ"/>
-                        <segue destination="9oa-D4-X4y" kind="presentation" identifier="signUp" id="xzP-jN-PgB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DGD-xH-cRk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1772" y="548"/>
+            <point key="canvasLocation" x="431" y="819"/>
         </scene>
         <!--Uber-->
         <scene sceneID="WHp-3z-8Oc">
@@ -447,7 +446,42 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3M8-Pl-LV6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3984.8000000000002" y="101.19940029985008"/>
+            <point key="canvasLocation" x="2814" y="-233"/>
+        </scene>
+        <!--Requisições-->
+        <scene sceneID="pRe-dn-LiU">
+            <objects>
+                <tableViewController id="gol-S6-BPt" customClass="MotoristaTableViewController" customModule="Uber" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="y04-Cu-OoI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseCell" id="uaZ-wv-67A">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uaZ-wv-67A" id="E51-Oi-Lxe">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="gol-S6-BPt" id="PfN-Ct-4qy"/>
+                            <outlet property="delegate" destination="gol-S6-BPt" id="7fQ-VR-d2k"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Requisições" id="0Qd-mj-upp">
+                        <barButtonItem key="leftBarButtonItem" title="Deslogar" id="SIm-eu-eKe">
+                            <connections>
+                                <action selector="deslogar:" destination="gol-S6-BPt" id="O5t-WV-PSi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VnK-AI-RNx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2814" y="546"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="V0m-rt-Flq">
@@ -486,14 +520,29 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dgq-lk-R1t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2938" y="102"/>
+            <point key="canvasLocation" x="1850" y="-232"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hof-RG-ek5">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yeL-31-LuW" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oSB-dh-qK6">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="gol-S6-BPt" kind="relationship" relationship="rootViewController" id="9FA-q5-UgK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eY4-hA-j6U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1849" y="546"/>
         </scene>
     </scenes>
     <resources>
         <image name="fundo" width="2060" height="2060"/>
         <image name="logo" width="315" height="317"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="xzP-jN-PgB"/>
-    </inferredMetricsTieBreakers>
 </document>

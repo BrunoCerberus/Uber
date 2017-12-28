@@ -11,6 +11,7 @@
 		EC35E6E71FDC988E00086214 /* PassageiroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC35E6E61FDC988E00086214 /* PassageiroViewController.swift */; };
 		EC40705F1FDC90AC00C0115E /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC40705E1FDC90AC00C0115E /* SignInViewController.swift */; };
 		EC4070611FDC90CD00C0115E /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4070601FDC90CD00C0115E /* SignUpViewController.swift */; };
+		EC4492521FF1903E002145AC /* MotoristaTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4492511FF1903E002145AC /* MotoristaTableViewController.swift */; };
 		EC78895D1FDC1CF300252AEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC78895C1FDC1CF300252AEF /* AppDelegate.swift */; };
 		EC78895F1FDC1CF300252AEF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC78895E1FDC1CF300252AEF /* ViewController.swift */; };
 		EC7889621FDC1CF300252AEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7889601FDC1CF300252AEF /* Main.storyboard */; };
@@ -29,6 +30,7 @@
 		EC4070581FDC22B700C0115E /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		EC40705E1FDC90AC00C0115E /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		EC4070601FDC90CD00C0115E /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		EC4492511FF1903E002145AC /* MotoristaTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotoristaTableViewController.swift; sourceTree = "<group>"; };
 		EC7889591FDC1CF300252AEF /* Uber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Uber.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC78895C1FDC1CF300252AEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC78895E1FDC1CF300252AEF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				EC40705E1FDC90AC00C0115E /* SignInViewController.swift */,
 				EC4070601FDC90CD00C0115E /* SignUpViewController.swift */,
 				EC35E6E61FDC988E00086214 /* PassageiroViewController.swift */,
+				EC4492511FF1903E002145AC /* MotoristaTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 			files = (
 				EC78895F1FDC1CF300252AEF /* ViewController.swift in Sources */,
 				EC78895D1FDC1CF300252AEF /* AppDelegate.swift in Sources */,
+				EC4492521FF1903E002145AC /* MotoristaTableViewController.swift in Sources */,
 				EC35E6E71FDC988E00086214 /* PassageiroViewController.swift in Sources */,
 				EC4070611FDC90CD00C0115E /* SignUpViewController.swift in Sources */,
 				EC40705F1FDC90AC00C0115E /* SignInViewController.swift in Sources */,
