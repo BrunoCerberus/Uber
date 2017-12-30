@@ -457,12 +457,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseCell" id="uaZ-wv-67A">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseCell" textLabel="BdR-fa-yGf" detailTextLabel="jhU-Lw-JfF" style="IBUITableViewCellStyleSubtitle" id="uaZ-wv-67A">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uaZ-wv-67A" id="E51-Oi-Lxe">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BdR-fa-yGf">
+                                            <rect key="frame" x="16" y="5" width="33.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jhU-Lw-JfF">
+                                            <rect key="frame" x="16" y="25.5" width="44" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -478,10 +494,64 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Bgg-2K-GTB" kind="show" identifier="segueAceitarCorrida" id="qfa-0R-0nW"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VnK-AI-RNx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2814" y="546"/>
+        </scene>
+        <!--Confirmar Requisicao View Controller-->
+        <scene sceneID="OeC-TW-BZB">
+            <objects>
+                <viewController id="Bgg-2K-GTB" customClass="ConfirmarRequisicaoViewController" customModule="Uber" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gfe-Nv-lqT"/>
+                        <viewControllerLayoutGuide type="bottom" id="M14-0U-Pac"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9PQ-59-aJb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GT7-Sh-S1F">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Bgg-2K-GTB" id="6pU-0B-bgm"/>
+                                </connections>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AV7-8m-57U">
+                                <rect key="frame" x="0.0" y="603" width="375" height="64"/>
+                                <color key="backgroundColor" red="0.066666666669999999" green="0.57647058819999997" blue="0.60392156860000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="hih-Z9-SQe"/>
+                                </constraints>
+                                <state key="normal" title="Aceitar corrida">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="aceitarCorrida:" destination="Bgg-2K-GTB" eventType="touchUpInside" id="GZH-5c-NIR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="AV7-8m-57U" firstAttribute="leading" secondItem="9PQ-59-aJb" secondAttribute="leading" id="07P-BZ-Bck"/>
+                            <constraint firstItem="GT7-Sh-S1F" firstAttribute="leading" secondItem="9PQ-59-aJb" secondAttribute="leading" id="8My-Em-M5E"/>
+                            <constraint firstItem="GT7-Sh-S1F" firstAttribute="top" secondItem="gfe-Nv-lqT" secondAttribute="bottom" id="CEW-xh-X5o"/>
+                            <constraint firstAttribute="trailing" secondItem="AV7-8m-57U" secondAttribute="trailing" id="JJT-q2-o66"/>
+                            <constraint firstItem="M14-0U-Pac" firstAttribute="top" secondItem="GT7-Sh-S1F" secondAttribute="bottom" id="YYT-Wx-bV9"/>
+                            <constraint firstAttribute="trailing" secondItem="GT7-Sh-S1F" secondAttribute="trailing" id="adn-h2-2P9"/>
+                            <constraint firstItem="M14-0U-Pac" firstAttribute="top" secondItem="AV7-8m-57U" secondAttribute="bottom" id="lF0-jU-B3m"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapa" destination="GT7-Sh-S1F" id="G4M-rr-0mf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iGK-sx-Qc7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3997.5999999999999" y="545.57721139430294"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="V0m-rt-Flq">

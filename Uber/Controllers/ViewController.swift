@@ -16,13 +16,12 @@ class ViewController: UIViewController {
         
         let autenticacao = Auth.auth()
         
-        /*
+        
         do {
             try autenticacao.signOut()
         } catch let erro {
             print("Erro: \(erro.localizedDescription)")
         }
-        */
         
         //verifica o tempo todo se o usuario foi autenticado
         //independente da view

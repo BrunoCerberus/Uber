@@ -8,17 +8,32 @@
 
 import UIKit
 import Firebase
+import MapKit
 
-class MotoristaTableViewController: UITableViewController {
+class MotoristaTableViewController: UITableViewController, CLLocationManagerDelegate {
 
+    var listaRequisicoes: [DataSnapshot] = []
+    var gerenciadorLocalizacao = CLLocationManager()
+    var localMotorista = CLLocationCoordinate2D()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //configurar localizacao do motorista
+        self.gerenciadorLocalizacao.delegate = self
+        self.gerenciadorLocalizacao.desiredAccuracy = kCLLocationAccuracyBest
+        self.gerenciadorLocalizacao.requestWhenInUseAuthorization()
+        self.gerenciadorLocalizacao.startUpdatingLocation()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        //configura o banco de dados
+        let database = Database.database().reference()
+        let requisicoes = database.child("requisicoes")
+        
+        //recuperar requisicoes
+        requisicoes.observe(.childAdded) { (snapshot) in
+            self.listaRequisicoes.append(snapshot)
+            self.tableView.reloadData()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,7 +50,16 @@ class MotoristaTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 10
+        return self.listaRequisicoes.count
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        if let coordenadas = manager.location?.coordinate {
+            self.localMotorista = coordenadas
+        }
+        
+        self.gerenciadorLocalizacao.stopUpdatingLocation()
     }
     
     
@@ -53,12 +77,40 @@ class MotoristaTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseCell", for: indexPath)
-
+        let snapshot = self.listaRequisicoes[indexPath.row]
         
-
+        if let dados = snapshot.value as? [String: Any] {
+            
+            if let latPassageiro = dados["latitude"] as? Double {
+                if let lonPassageiro = dados["longitude"] as? Double {
+                    
+                    //calcular a distancia entre dois pontos
+                    let motoristaLocation = CLLocation(latitude: self.localMotorista.latitude, longitude: self.localMotorista.longitude)
+                    let passageiroLocation = CLLocation(latitude: latPassageiro, longitude: lonPassageiro)
+                    
+                    //calculo
+                    let distanciaMetros = motoristaLocation.distance(from: passageiroLocation)
+                    let distanciaKm = distanciaMetros / 1000
+                    let distanciaKmRounded = distanciaKm.rounded(toPlaces: 2)
+                    
+                    
+                    cell.textLabel?.text = dados["nome"] as? String
+                    cell.detailTextLabel?.text = "\(distanciaKmRounded) KM de distância"
+                    
+                    
+                }
+            }
+        }
+        
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let snapshot = self.listaRequisicoes[indexPath.row]
+        self.performSegue(withIdentifier: "segueAceitarCorrida", sender: snapshot)
+        self.tableView.deselectRow(at: indexPath, animated: true)
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -95,14 +147,41 @@ class MotoristaTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "segueAceitarCorrida" {
+            if let controller = segue.destination as? ConfirmarRequisicaoViewController {
+                if let snapshot = sender as? DataSnapshot {
+                    if let dados = snapshot.value as? [String:Any] {
+                        if let latPassageiro = dados["latitude"] as? Double {
+                            if let lonPassageiro = dados["longitude"] as? Double {
+                                if let nomePassageiro = dados["nome"] as? String {
+                                    if let emailPassageiro = dados["email"] as? String {
+                                        
+                                        // Recupera os dados do Passageiro
+                                        let localPassageiro = CLLocationCoordinate2D(latitude: latPassageiro, longitude: lonPassageiro)
+                                        // Envia os dados para a próxima ViewController
+                                        controller.nomePassageiro = nomePassageiro
+                                        controller.emailPassageiro = emailPassageiro
+                                        controller.localPassageiro = localPassageiro
+                                        // Envia os dados do motorista
+                                        controller.localMotorista = self.localMotorista
+                                        
+                                    }
+                                }
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+            }
+        }
     }
-    */
+    
 
 }

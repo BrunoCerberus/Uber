@@ -18,6 +18,8 @@
 		EC7889641FDC1CF300252AEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7889631FDC1CF300252AEF /* Assets.xcassets */; };
 		EC7889671FDC1CF300252AEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7889651FDC1CF300252AEF /* LaunchScreen.storyboard */; };
 		EC78896F1FDC1EC300252AEF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC78896E1FDC1EC300252AEF /* GoogleService-Info.plist */; };
+		ECF6143A1FF7F29F00B4DFC7 /* exDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF614391FF7F29F00B4DFC7 /* exDouble.swift */; };
+		ECF6143C1FF7F92D00B4DFC7 /* ConfirmarRequisicaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF6143B1FF7F92D00B4DFC7 /* ConfirmarRequisicaoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		EC7889661FDC1CF300252AEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EC7889681FDC1CF300252AEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC78896E1FDC1EC300252AEF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ECF614391FF7F29F00B4DFC7 /* exDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = exDouble.swift; sourceTree = "<group>"; };
+		ECF6143B1FF7F92D00B4DFC7 /* ConfirmarRequisicaoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmarRequisicaoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,7 @@
 		EC40705C1FDC536900C0115E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				ECF6143B1FF7F92D00B4DFC7 /* ConfirmarRequisicaoViewController.swift */,
 				EC78895E1FDC1CF300252AEF /* ViewController.swift */,
 				EC40705E1FDC90AC00C0115E /* SignInViewController.swift */,
 				EC4070601FDC90CD00C0115E /* SignUpViewController.swift */,
@@ -121,6 +126,7 @@
 		EC78895B1FDC1CF300252AEF /* Uber */ = {
 			isa = PBXGroup;
 			children = (
+				ECF614381FF7F28700B4DFC7 /* extensions */,
 				EC78895C1FDC1CF300252AEF /* AppDelegate.swift */,
 				EC40705D1FDC537B00C0115E /* Storyboards */,
 				EC40705C1FDC536900C0115E /* Controllers */,
@@ -131,6 +137,14 @@
 				EC78896E1FDC1EC300252AEF /* GoogleService-Info.plist */,
 			);
 			path = Uber;
+			sourceTree = "<group>";
+		};
+		ECF614381FF7F28700B4DFC7 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				ECF614391FF7F29F00B4DFC7 /* exDouble.swift */,
+			);
+			path = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,10 +290,12 @@
 			files = (
 				EC78895F1FDC1CF300252AEF /* ViewController.swift in Sources */,
 				EC78895D1FDC1CF300252AEF /* AppDelegate.swift in Sources */,
+				ECF6143A1FF7F29F00B4DFC7 /* exDouble.swift in Sources */,
 				EC4492521FF1903E002145AC /* MotoristaTableViewController.swift in Sources */,
 				EC35E6E71FDC988E00086214 /* PassageiroViewController.swift in Sources */,
 				EC4070611FDC90CD00C0115E /* SignUpViewController.swift in Sources */,
 				EC40705F1FDC90AC00C0115E /* SignInViewController.swift in Sources */,
+				ECF6143C1FF7F92D00B4DFC7 /* ConfirmarRequisicaoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,6 +24,21 @@ class PassageiroViewController: UIViewController, MKMapViewDelegate, CLLocationM
         self.gerenciadorLocalizacao.desiredAccuracy = kCLLocationAccuracyBest
         self.gerenciadorLocalizacao.requestWhenInUseAuthorization()
         self.gerenciadorLocalizacao.startUpdatingLocation()
+        
+        // Verifica se o usuario ja possui uma requisicao
+        let database = Database.database().reference()
+        let autenticacao = Auth.auth()
+        
+        if let emailUsuario = autenticacao.currentUser?.email {
+            let requisicoes = database.child("requisicoes")
+            let consultaRequisicoes = requisicoes.queryOrdered(byChild: "email").queryEqual(toValue: emailUsuario)
+            
+            consultaRequisicoes.observeSingleEvent(of: .childAdded, with: { (snapshot) in
+                if snapshot.value != nil {
+                    self.alternaBotaoCancelarUber()
+                }
+            })
+        }
     }
 
     private func centralizar() {
@@ -98,16 +113,28 @@ class PassageiroViewController: UIViewController, MKMapViewDelegate, CLLocationM
                 
             } else {//uber nao foi chamado
                 
-                self.alternaBotaoCancelarUber()
-                
-                let dadosUsuario = [
-                    "email" : emailUsuario,
-                    "nome" : "Bruno Lopes",
-                    "latitude" : latitude!,
-                    "longitude" : longitude!
-                    ] as [String : Any]
-                
-                requisicao.childByAutoId().setValue(dadosUsuario)
+                if let idUsuario = autenticacao.currentUser?.uid {
+                    
+                    //recuperar o nome do usuario
+                    let database = Database.database().reference()
+                    let usuarios = database.child("usuarios").child(idUsuario)
+                    
+                    usuarios.observeSingleEvent(of: .value, with: { (snapshot) in
+                        let dados = snapshot.value as? NSDictionary
+                        let nomeUsuario = dados!["nome"] as! String
+                        
+                        self.alternaBotaoCancelarUber()
+                        
+                        let dadosUsuario = [
+                            "email" : emailUsuario,
+                            "nome" : nomeUsuario,
+                            "latitude" : latitude!,
+                            "longitude" : longitude!
+                            ] as [String : Any]
+                        
+                        requisicao.childByAutoId().setValue(dadosUsuario)
+                    })
+                }
                 
             }
         }
