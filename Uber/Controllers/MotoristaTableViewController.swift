@@ -11,10 +11,11 @@ import Firebase
 import MapKit
 
 class MotoristaTableViewController: UITableViewController, CLLocationManagerDelegate {
-
+    
     var listaRequisicoes: [DataSnapshot] = []
     var gerenciadorLocalizacao = CLLocationManager()
     var localMotorista = CLLocationCoordinate2D()
+    var timerControle = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,30 +25,73 @@ class MotoristaTableViewController: UITableViewController, CLLocationManagerDele
         self.gerenciadorLocalizacao.desiredAccuracy = kCLLocationAccuracyBest
         self.gerenciadorLocalizacao.requestWhenInUseAuthorization()
         self.gerenciadorLocalizacao.startUpdatingLocation()
-
+        
         //configura o banco de dados
         let database = Database.database().reference()
         let requisicoes = database.child("requisicoes")
         
         //recuperar requisicoes
-        requisicoes.observe(.childAdded) { (snapshot) in
+        /*requisicoes.observe(.childAdded) { (snapshot) in
+            self.listaRequisicoes.append(snapshot)
+            self.tableView.reloadData()
+        }*/
+        
+        //Limpa requisicao caso o usuario cancele
+        requisicoes.observe(.childRemoved) { (snapshot) in
+            
+            var indice = 0
+            
+            for requisicao in self.listaRequisicoes {
+                if requisicao.key == snapshot.key {
+                    self.listaRequisicoes.remove(at: indice)
+                }
+                indice += 1
+            }
+            self.tableView.reloadData()
+        }
+    }
+    
+    func recuperarRequisicoes() {
+        
+        //configura o banco de dados
+        let database = Database.database().reference()
+        let requisicoes = database.child("requisicoes")
+        
+        //Limpar lista atual de requisicoes
+        self.listaRequisicoes.removeAll()
+        
+        //Recuperar requisicoes
+        requisicoes.observeSingleEvent(of: .childAdded) { (snapshot) in
             self.listaRequisicoes.append(snapshot)
             self.tableView.reloadData()
         }
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        self.recuperarRequisicoes()
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
+            self.recuperarRequisicoes()
+            self.timerControle = timer
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.timerControle.invalidate()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.listaRequisicoes.count
@@ -93,10 +137,23 @@ class MotoristaTableViewController: UITableViewController, CLLocationManagerDele
                     let distanciaKm = distanciaMetros / 1000
                     let distanciaKmRounded = distanciaKm.rounded(toPlaces: 2)
                     
+                    var requisicaoMotorista = ""
+                    if let emailMotoristaR = dados["motoristaEmail"] as? String{
+                        let autenticacao = Auth.auth()
+                        if let emailM = autenticacao.currentUser?.email {
+                            
+                            if emailMotoristaR == emailM {
+                                requisicaoMotorista = " {ANDAMENTO}"
+                            }
+                        }
+                        
+                    }
                     
-                    cell.textLabel?.text = dados["nome"] as? String
-                    cell.detailTextLabel?.text = "\(distanciaKmRounded) KM de distância"
                     
+                    if let nomePassageiro = dados["nome"] as? String {
+                        cell.textLabel?.text = "\(nomePassageiro) \(requisicaoMotorista)"
+                            cell.detailTextLabel?.text = "\(distanciaKmRounded) KM de distância"
+                    }
                     
                 }
             }
@@ -111,45 +168,45 @@ class MotoristaTableViewController: UITableViewController, CLLocationManagerDele
         self.performSegue(withIdentifier: "segueAceitarCorrida", sender: snapshot)
         self.tableView.deselectRow(at: indexPath, animated: true)
     }
-
+    
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
+     // Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+     if editingStyle == .delete {
+     // Delete the row from the data source
+     tableView.deleteRows(at: [indexPath], with: .fade)
+     } else if editingStyle == .insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
+     // Override to support conditional rearranging of the table view.
+     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueAceitarCorrida" {
@@ -183,5 +240,5 @@ class MotoristaTableViewController: UITableViewController, CLLocationManagerDele
         }
     }
     
-
+    
 }
