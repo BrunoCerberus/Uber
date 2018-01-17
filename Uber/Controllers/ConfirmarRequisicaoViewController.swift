@@ -36,6 +36,7 @@ class ConfirmarRequisicaoViewController: UIViewController, MKMapViewDelegate, CL
         self.gerenciadorLocalizacao.desiredAccuracy = kCLLocationAccuracyBest
         self.gerenciadorLocalizacao.requestWhenInUseAuthorization()
         self.gerenciadorLocalizacao.startUpdatingLocation()
+        self.gerenciadorLocalizacao.allowsBackgroundLocationUpdates = true
         
         //configurar a area inicial do mapa
         let regiao = MKCoordinateRegionMakeWithDistance(self.localPassageiro, 200, 200)
@@ -76,14 +77,41 @@ class ConfirmarRequisicaoViewController: UIViewController, MKMapViewDelegate, CL
                             
                         //status PegarPassageiro
                         case StatusCorrida.PegarPassageiro.rawValue:
+                            
+                            /*
+                             Verifica se o motorista está próximo
+                             para iniciar a corrida
+                             */
+                            
+                            //Calcula a distancia entre o motorista e o passageiro
+                            let motoristaLocation = CLLocation(latitude: self.localMotorista.latitude, longitude: self.localMotorista.longitude)
+                            let passageiroLocation = CLLocation(latitude: self.localPassageiro.latitude, longitude: self.localPassageiro.longitude)
+                            
+                            let distancia = motoristaLocation.distance(from: passageiroLocation)
+                            let distanciaKm = distancia / 1000
+                            let distanciaFinal = distanciaKm.rounded(toPlaces: 2)
+                            
+                            var novoStatus = self.status.rawValue
+                            if distanciaFinal <= 0.5 {
+                                novoStatus = StatusCorrida.IniciarViagem.rawValue
+                            }
+                            
                             let dadosMotorista = [
                                 "motoristaLatitude" : self.localMotorista.latitude,
-                                "motoristaLongitude": self.localMotorista.longitude
-                            ]
+                                "motoristaLongitude": self.localMotorista.longitude,
+                                "status": novoStatus
+                                ] as [String : Any]
+                            
                             //salvar os dados no Firebase
                             snapshot.ref.updateChildValues(dadosMotorista)
                             self.pegarPassageiro()
                             break
+                            
+                        case StatusCorrida.IniciarViagem.rawValue:
+                            
+                            self.alternaBotaoIniciarViagem()
+                            break
+                            
                         default: break
                             //do nothing for while
                         }
@@ -106,6 +134,12 @@ class ConfirmarRequisicaoViewController: UIViewController, MKMapViewDelegate, CL
         
         //Alternar botao
         self.alternaBotaoPegarPassageiro()
+    }
+    
+    func alternaBotaoIniciarViagem() {
+        self.botaoAceitarCorrida.setTitle("Iniciar viagem", for: .normal)
+        self.botaoAceitarCorrida.backgroundColor = UIColor(displayP3Red: 0.067, green: 0.576, blue: 0.604, alpha: 1)
+        self.botaoAceitarCorrida.isEnabled = true
     }
     
     func alternaBotaoPegarPassageiro() {
