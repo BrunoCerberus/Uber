@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5B89D1067C431F869F058B3F /* Pods_Uber.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055765F4ADEEA969E4ADB57A /* Pods_Uber.framework */; };
+		EC20F5F620102EE900EB5DE5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC20F5F520102EE900EB5DE5 /* CoreLocation.framework */; };
 		EC35E6E71FDC988E00086214 /* PassageiroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC35E6E61FDC988E00086214 /* PassageiroViewController.swift */; };
 		EC40705F1FDC90AC00C0115E /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC40705E1FDC90AC00C0115E /* SignInViewController.swift */; };
 		EC4070611FDC90CD00C0115E /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4070601FDC90CD00C0115E /* SignUpViewController.swift */; };
@@ -26,6 +27,7 @@
 		055765F4ADEEA969E4ADB57A /* Pods_Uber.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Uber.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		07112A9E0A22AFF05BE89006 /* Pods-Uber.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Uber.release.xcconfig"; path = "Pods/Target Support Files/Pods-Uber/Pods-Uber.release.xcconfig"; sourceTree = "<group>"; };
 		20FEBCEC2EEE2B4CA090A13A /* Pods-Uber.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Uber.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Uber/Pods-Uber.debug.xcconfig"; sourceTree = "<group>"; };
+		EC20F5F520102EE900EB5DE5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		EC35E6E61FDC988E00086214 /* PassageiroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageiroViewController.swift; sourceTree = "<group>"; };
 		EC4070551FDC215000C0115E /* Uber.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Uber.entitlements; sourceTree = "<group>"; };
 		EC4070561FDC228400C0115E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -50,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC20F5F620102EE900EB5DE5 /* CoreLocation.framework in Frameworks */,
 				5B89D1067C431F869F058B3F /* Pods_Uber.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,6 +72,7 @@
 		E915E6541B1228560ACAC78A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EC20F5F520102EE900EB5DE5 /* CoreLocation.framework */,
 				EC4070581FDC22B700C0115E /* LocalAuthentication.framework */,
 				EC4070561FDC228400C0115E /* MapKit.framework */,
 				055765F4ADEEA969E4ADB57A /* Pods_Uber.framework */,
