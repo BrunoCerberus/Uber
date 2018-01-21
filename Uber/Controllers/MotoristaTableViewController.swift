@@ -15,7 +15,6 @@ class MotoristaTableViewController: UITableViewController, CLLocationManagerDele
     var listaRequisicoes: [DataSnapshot] = []
     var gerenciadorLocalizacao = CLLocationManager()
     var localMotorista = CLLocationCoordinate2D()
-    var timerControle = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,10 +30,18 @@ class MotoristaTableViewController: UITableViewController, CLLocationManagerDele
         let requisicoes = database.child("requisicoes")
         
         //recuperar requisicoes
-        /*requisicoes.observe(.childAdded) { (snapshot) in
-            self.listaRequisicoes.append(snapshot)
+        requisicoes.observe(.value) { (snapshot) in
+            
+            self.listaRequisicoes.removeAll()
+            if snapshot.value != nil {
+                for filho in snapshot.children {
+                    
+                    self.listaRequisicoes.append(filho as! DataSnapshot)
+
+                }
+            }
             self.tableView.reloadData()
-        }*/
+        }
         
         //Limpa requisicao caso o usuario cancele
         requisicoes.observe(.childRemoved) { (snapshot) in
@@ -49,35 +56,6 @@ class MotoristaTableViewController: UITableViewController, CLLocationManagerDele
             }
             self.tableView.reloadData()
         }
-    }
-    
-    func recuperarRequisicoes() {
-        
-        //configura o banco de dados
-        let database = Database.database().reference()
-        let requisicoes = database.child("requisicoes")
-        
-        //Limpar lista atual de requisicoes
-        self.listaRequisicoes.removeAll()
-        
-        //Recuperar requisicoes
-        requisicoes.observeSingleEvent(of: .childAdded) { (snapshot) in
-            self.listaRequisicoes.append(snapshot)
-            self.tableView.reloadData()
-        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-        self.recuperarRequisicoes()
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
-            self.recuperarRequisicoes()
-            self.timerControle = timer
-        }
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.timerControle.invalidate()
     }
     
     override func didReceiveMemoryWarning() {
@@ -143,7 +121,12 @@ class MotoristaTableViewController: UITableViewController, CLLocationManagerDele
                         if let emailM = autenticacao.currentUser?.email {
                             
                             if emailMotoristaR == emailM {
-                                requisicaoMotorista = " {ANDAMENTO}"
+                                requisicaoMotorista = " {EM ANDAMENTO}"
+                                if let status = dados["status"] as? String {
+                                    if status == StatusCorrida.ViagemFinalizada.rawValue {
+                                        requisicaoMotorista = " {FINALIZADA}"
+                                    }
+                                }
                             }
                         }
                         

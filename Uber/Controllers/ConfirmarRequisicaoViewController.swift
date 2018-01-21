@@ -118,13 +118,22 @@ class ConfirmarRequisicaoViewController: UIViewController, MKMapViewDelegate, CL
             self.status = .EmViagem
             self.alterBotaoPendenteFinalizarViagem()
             
-            //atualizar o local do motorista e do passageiro
+            //atualizar o local do motorista e do destino
             if let latDestino = dados["destinoLatitude"] as? Double {
                 if let lonDestino = dados["destinoLongitude"] as? Double {
                     self.localDestino = CLLocationCoordinate2D(latitude: latDestino, longitude: lonDestino)
-                    self.exibeMotoristaPassageiro(lPartida: self.localPassageiro, lDestino: self.localDestino, tPartida: "Motorista", tDestino: "Destino ")
+                    self.exibeMotoristaPassageiro(lPartida: self.localMotorista, lDestino: self.localDestino, tPartida: "Motorista", tDestino: "Destino ")
                 }
             }
+            break
+            
+        case StatusCorrida.ViagemFinalizada.rawValue:
+            self.status = .ViagemFinalizada
+            
+            if let preco = dados["precoViagem"] as? Double {
+                self.alternaBotaoViagemFinalizada(preco: preco)
+            }
+            
             break
         default:
             break
@@ -199,16 +208,19 @@ class ConfirmarRequisicaoViewController: UIViewController, MKMapViewDelegate, CL
                             
 //                            self.alternaBotaoIniciarViagem()
                             
-                            /*if let latDestino = dados["destinoLatitude"] as? Double {
+                            
+                            break
+                            
+                        case StatusCorrida.EmViagem.rawValue:
+                            
+                            if let latDestino = dados["destinoLatitude"] as? Double {
                                 if let lonDestino = dados["destinoLongitude"] as? Double {
                                     
                                     self.localDestino = CLLocationCoordinate2D(latitude: latDestino, longitude: lonDestino)
-                                    
-                                    
+                                    self.exibeMotoristaPassageiro(lPartida: self.localMotorista, lDestino: self.localDestino, tPartida: "Motorista", tDestino: "Destino")
                                     
                                 }
-                            }*/
-                            
+                            }
                             
                             break
                             

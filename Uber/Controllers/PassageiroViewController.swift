@@ -60,15 +60,58 @@ class PassageiroViewController: UIViewController, MKMapViewDelegate, CLLocationM
             consultaRequisicoes.observe(.childChanged, with: { (snapshot) in
                 
                 if let dados = snapshot.value as? NSDictionary {
-                    if let latMotorista = dados["motoristaLatitude"] {
-                        if let lonMotorista = dados["motoristaLongitude"] {
-                            self.localMotorista = CLLocationCoordinate2D(latitude: latMotorista as! CLLocationDegrees, longitude: lonMotorista as! CLLocationDegrees)
-                            self.exibirMotoristaPassageiro()
+                    
+                    if let status = dados["status"] as? String {
+                        
+                        switch status {
+                        case StatusCorrida.PegarPassageiro.rawValue:
+                            if let latMotorista = dados["motoristaLatitude"] {
+                                if let lonMotorista = dados["motoristaLongitude"] {
+                                    self.localMotorista = CLLocationCoordinate2D(latitude: latMotorista as! CLLocationDegrees, longitude: lonMotorista as! CLLocationDegrees)
+                                    self.exibirMotoristaPassageiro()
+                                }
+                            }
+                            break
+                            
+                        case StatusCorrida.EmViagem.rawValue:
+                            self.alternaBotaoEmViagem()
+                            break
+                            
+                        case StatusCorrida.ViagemFinalizada.rawValue:
+                            
+                            if let preco = dados["precoViagem"] as? Double {
+                                self.alternaBotaoViagemFinalizada(preco: preco)
+                            }
+                            break
+                            
+                        default:
+                            break
                         }
                     }
                 }
             })
         }
+    }
+    
+    func alternaBotaoViagemFinalizada(preco: Double) {
+        self.chamarButton.backgroundColor = UIColor(displayP3Red: 0.502, green: 0.502, blue: 0.502, alpha: 1)
+        self.chamarButton.isEnabled = false
+        
+        //Formata numero
+        let nf = NumberFormatter()
+        nf.numberStyle = .decimal
+        nf.maximumFractionDigits = 2
+        nf.locale = Locale(identifier: "pt_BR")
+        
+        let precoFinal = nf.string(from: NSNumber(value: preco))
+        
+        self.chamarButton.setTitle("Viagem finalizada - R$ " + precoFinal!, for: .normal)
+    }
+    
+    func alternaBotaoEmViagem() {
+        self.chamarButton.setTitle("Em viagem", for: .normal)
+        self.chamarButton.backgroundColor = UIColor(displayP3Red: 0.502, green: 0.502, blue: 0.502, alpha: 1)
+        self.chamarButton.isEnabled = false
     }
     
     func exibirMotoristaPassageiro() {
@@ -83,8 +126,10 @@ class PassageiroViewController: UIViewController, MKMapViewDelegate, CLLocationM
         let distanciaKm = distancia / 1000
         let distanciaFinal = distanciaKm.rounded(toPlaces: 2)
         
+        let strDistancia = distanciaFinal >= 1.0 ? "\(distanciaFinal) KM distante" :  "\(distanciaFinal * 1000) Metros distante"
+        
         self.chamarButton.backgroundColor = UIColor(displayP3Red: 0.067, green: 0.576, blue: 0.604, alpha: 1)
-        self.chamarButton.setTitle("Motorista \(distanciaFinal) KM distante", for: UIControlState.normal)
+        self.chamarButton.setTitle("Motorista " + strDistancia, for: UIControlState.normal)
         
         //Exibir passageiro e motorista no mapa
         
